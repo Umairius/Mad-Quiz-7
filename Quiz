@@ -1,0 +1,76 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_gesture_detector/flutter_gesture_detector.dart';
+
+void main() {
+  runApp(GestureApp());
+}
+
+class GestureApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Gesture App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: GestureScreen(),
+    );
+  }
+}
+
+class GestureScreen extends StatefulWidget {
+  @override
+  _GestureScreenState createState() => _GestureScreenState();
+}
+
+class _GestureScreenState extends State<GestureScreen> {
+  String gestureText = '';
+
+  void onTap() {
+    setState(() {
+      gestureText = 'onTap gesture detected';
+    });
+  }
+
+  void onDoubleTap() {
+    setState(() {
+      gestureText = 'onDoubleTap gesture detected';
+    });
+  }
+
+  void onLongPress() {
+    setState(() {
+      gestureText = 'onLongPress gesture detected';
+    });
+  }
+
+  void onPanUpdate(DragUpdateDetails details) {
+    setState(() {
+      gestureText = 'onPanUpdate gesture detected\n'
+          'Delta: ${details.delta.dx.toStringAsFixed(2)}, ${details.delta.dy.toStringAsFixed(2)}';
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Gesture App'),
+      ),
+      body: GestureDetector(
+        onTap: onTap,
+        onDoubleTap: onDoubleTap,
+        onLongPress: onLongPress,
+        onPanUpdate: onPanUpdate,
+        child: Container(
+          alignment: Alignment.center,
+          child: Text(
+            gestureText,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 24),
+          ),
+        ),
+      ),
+    );
+  }
+}
